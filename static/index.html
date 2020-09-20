@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kanoon - Law made easy!</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-slider-component@latest/theme/default.css">
+
+    <link href="main.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container-fluid" id="jina-ui">
+    
+	<div class="col">
+		<div class="col-30">
+			<br>
+            <center><img class="animated-gif" src="kanoon-logo.gif"></center>
+        </div>
+		
+        <div class="col-30">
+            <div class="card">
+                <div class="card-header">
+                    <center>What did you do? (Be as descriptive as you can)</center>
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" id="queryDoc" rows="2" v-model="searchQuery"></textarea>
+                    <p class="card-text"><small class="text-muted">{{ searchIndicator }}</small></p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col">
+			<div class="col-30">
+            <div class="card">
+                <div class="card-header">
+                    <center>Result</center>
+                </div>
+                <div class="card-body scroll-card">
+                    <div v-masonry transition-duration="1s" item-selector=".item" class="masonry-container"
+                         style="height: 100%" id="my-masonry">
+                        <div v-masonry-tile class="item" :key="index"
+                             v-for="(item, index) in topkDocs" style="width: 40%">
+                            <div class="card" v-on:click="searchQuery=item.text">
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p class="lyric-text"
+                                           v-html="topkDocsDict.get(item['id'])['renderHTML']"></p>
+                                        <footer class="blockquote-footer">
+                                            <small class="text-muted">
+                                                in <cite title="Source Title">{{item.tags["Section"]}} </cite>
+                                            </small>
+                                        </footer>
+                                    </blockquote>
+                                    <p class="card-text">
+                                        <span class="badge badge-warning">{{index+1}}</span>
+                                        <small class="text-muted">Relevance {{ item.score.value.toFixed(3) }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script async defer src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.0.0/masonry.pkgd.min.js"></script>
+<!--<script src="vue.js"></script>-->
+<script src="https://unpkg.com/jinabox"></script>
+<script src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-masonry@0.11.3/dist/vue-masonry-plugin-window.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-slider-component@latest/dist/vue-slider-component.umd.min.js"></script>
+<script type="text/javascript" src="vue-bindings.js"></script>
+</body>
+</html>

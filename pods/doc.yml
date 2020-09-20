@@ -1,0 +1,22 @@
+!BinaryPbIndexer
+with:
+  index_filename: doc.gzip
+metas:
+  name: doc_indexer  
+  workspace: $JINA_WORKSPACE
+requests:
+  on:
+    ControlRequest:
+      - !ControlReqDriver {}
+    SearchRequest:
+      - !KVSearchDriver
+        with:
+          granularity_range: [0, 0]
+          adjacency_range: [0, 1]
+    IndexRequest:
+      - !ExcludeQL
+        with:
+          fields:
+            - chunks  
+            - buffer
+      - !KVIndexDriver {}

@@ -1,0 +1,4 @@
+jina[hub,http]==0.5.5
+torch
+transformers
+

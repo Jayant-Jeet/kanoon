@@ -1,0 +1,24 @@
+!Flow
+with:
+  read_only: true  
+  rest_api: true
+  port_expose: $JINA_PORT
+pods:
+  chunk_seg:
+    uses: pods/craft.yml
+    parallel: $JINA_PARALLEL
+  tf_encode:
+    uses: pods/encode.yml
+    parallel: $JINA_PARALLEL
+    timeout_ready: 600000
+  chunk_idx:
+    uses: pods/chunk.yml
+    shards: $JINA_SHARDS
+    separated_workspace: true
+    polling: all
+    uses_reducing: _merge_all
+    timeout_ready: -1 
+  ranker:
+    uses: pods/ranker.yml
+  doc_idx:
+    uses: pods/doc.yml
